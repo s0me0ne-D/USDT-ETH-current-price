@@ -1,6 +1,7 @@
 {
 	"name": "price_calculator",
 	"version": "0.1.0",
+	"homepage": "https://s0me0ne-d.github.io/USDT-ETH-exchange/",
 	"private": true,
 	"dependencies": {
 		"@testing-library/jest-dom": "^5.17.0",
