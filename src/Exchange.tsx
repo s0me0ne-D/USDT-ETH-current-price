@@ -89,7 +89,9 @@ export const Exchange = () => {
 				<input className="exchange_value" type="text" value={buy.value} />
 			</div>
 			<div className="exchange_price">
-				1 {sale.type} = {!flipInputFields ? data?.p : buy.value / sale.value} {buy.type}
+				1 {sale.type} ={" "}
+				{!flipInputFields ? data?.p : Math.floor((1 / Number(data?.p)) * 100000000) / 100000000}{" "}
+				{buy.type}
 			</div>
 		</div>
 	);
