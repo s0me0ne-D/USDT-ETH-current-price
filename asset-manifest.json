@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.5e0da110.css",
-    "main.js": "/static/js/main.ffdb76fb.js",
-    "index.html": "/index.html",
-    "main.5e0da110.css.map": "/static/css/main.5e0da110.css.map",
-    "main.ffdb76fb.js.map": "/static/js/main.ffdb76fb.js.map"
+    "main.css": "/USDT-ETH-exchange/static/css/main.5e0da110.css",
+    "main.js": "/USDT-ETH-exchange/static/js/main.ffdb76fb.js",
+    "index.html": "/USDT-ETH-exchange/index.html",
+    "main.5e0da110.css.map": "/USDT-ETH-exchange/static/css/main.5e0da110.css.map",
+    "main.ffdb76fb.js.map": "/USDT-ETH-exchange/static/js/main.ffdb76fb.js.map"
   },
   "entrypoints": [
     "static/css/main.5e0da110.css",
