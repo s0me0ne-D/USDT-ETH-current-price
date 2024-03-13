@@ -1,0 +1,65 @@
+.exchange {
+	$SMOKE: #848e9c;
+	$SMOKE_WHITE: #e4e4e4;
+	$SECONDARY_COLOR: #2b3139;
+	width: 300px;
+	height: 300px;
+	display: grid;
+	place-content: center;
+	gap: 20px;
+	border-radius: 20px;
+	font-size: 20px;
+	&_block {
+		min-width: 300px;
+		height: 70px;
+		padding: 10px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 10px;
+		background-color: $SECONDARY_COLOR;
+		&_title {
+			display: flex;
+			justify-content: space-between;
+			color: $SMOKE;
+			span:nth-child(1) {
+				font-size: 10px;
+			}
+		}
+	}
+	&_type {
+		color: $SMOKE;
+	}
+	&_value {
+		width: 100%;
+		background: transparent;
+		color: $SMOKE_WHITE;
+		font-size: 20px;
+	}
+	&_flip {
+		height: 30px;
+		width: 30px;
+		margin: 0 auto;
+		display: grid;
+		place-content: center;
+		border-radius: 50%;
+		background-color: $SECONDARY_COLOR;
+		transition: 0.1s ease-in;
+		svg {
+			fill: $SMOKE_WHITE;
+		}
+		&:hover {
+			background-color: #fcd535;
+			svg {
+				fill: white;
+			}
+		}
+	}
+	&_price {
+		width: 100%;
+		text-align: right;
+		font-size: 10px;
+		color: $SMOKE_WHITE;
+		opacity: 0.5;
+	}
+}
