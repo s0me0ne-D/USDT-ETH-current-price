@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./exchange.scss";
 import { SwapIcon } from "./assets/icons/SwapIcon";
 
@@ -17,29 +17,29 @@ interface IValueType {
 	type: "ETH" | "USDT";
 	value: number;
 }
-const SRTEAM = "stream?streams=ethusdt@trade";
-const wsChanel = new WebSocket(`wss://fstream.binance.com/${SRTEAM}`);
+const STREAM = "stream?streams=ethusdt@trade";
+const wsChanel = new WebSocket(`wss://fstream.binance.com/${STREAM}`);
 
 export const Exchange = () => {
 	const [data, setData] = useState<ITradeData | null>(null);
 	const [sale, setSale] = useState<IValueType>({ type: "ETH", value: 1 });
 	const [buy, setBuy] = useState<IValueType>({ type: "USDT", value: 0 });
 	const [flipInputFields, setFlipInputFields] = useState(false);
+	const calculateValue = useCallback(
+		(value: number, rate: number, precision: number) =>
+			Math.floor(value * rate * precision) / precision,
+		[]
+	);
+
 	useEffect(() => {
 		if (data) {
-			if (!flipInputFields) {
-				setBuy((prev) => ({
-					...prev,
-					value: Math.floor(sale.value * Number(data?.p) * 100) / 100,
-				}));
-			} else if (flipInputFields) {
-				setBuy((prev) => ({
-					...prev,
-					value: Math.floor((sale.value / Number(data.p)) * 100000000) / 100000000,
-				}));
-			}
+			const rate = Number(data.p);
+			const value = flipInputFields
+				? calculateValue(sale.value / rate, 1, 100000000)
+				: calculateValue(sale.value, rate, 100);
+			setBuy((prev) => ({ ...prev, value }));
 		}
-	}, [data, sale]);
+	}, [data, sale, flipInputFields, calculateValue]);
 
 	useEffect(() => {
 		wsChanel.onmessage = function (event) {
@@ -53,16 +53,13 @@ export const Exchange = () => {
 			}
 		};
 	}, []);
+
 	const flipConversionInputFields = () => {
-		if (flipInputFields) {
-			setSale((prev) => ({ ...prev, type: "ETH" }));
-			setBuy((prev) => ({ ...prev, type: "USDT" }));
-		} else {
-			setSale((prev) => ({ ...prev, type: "USDT" }));
-			setBuy((prev) => ({ ...prev, type: "ETH" }));
-		}
+		setSale((prev) => ({ ...prev, type: flipInputFields ? "ETH" : "USDT" }));
+		setBuy((prev) => ({ ...prev, type: flipInputFields ? "USDT" : "ETH" }));
 		setFlipInputFields((prev) => !prev);
 	};
+
 	return (
 		<div className="exchange">
 			<div className="exchange_block">
@@ -72,7 +69,7 @@ export const Exchange = () => {
 				</div>
 				<input
 					className="exchange_value"
-					type="text"
+					type="number"
 					value={sale.value}
 					onChange={(event) => setSale((prev) => ({ ...prev, value: +event.target.value }))}
 				/>
@@ -86,7 +83,7 @@ export const Exchange = () => {
 					<span className="exchange_type">{buy.type}</span>
 				</div>
 
-				<input className="exchange_value" type="text" value={buy.value} />
+				<input className="exchange_value" type="number" value={buy.value} />
 			</div>
 			<div className="exchange_price">
 				1 {sale.type} ={" "}
